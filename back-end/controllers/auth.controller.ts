@@ -3,13 +3,13 @@ import bcrypt from "bcryptjs";
 import { TUser, TUserLogin } from "../types";
 import { errorTexts, successTexts } from "../texts";
 import { errorHandler, generateTokenAndSetCookie } from "../utils";
-import { IRequest } from "../types/basic.types";
+import { IRequestWithBody } from "../types/";
 import { UserModel } from "../models/";
 
 const avatarHe = "https://avatar.iran.liara.run/public/boy?username=";
 const avatarShe = "https://avatar.iran.liara.run/public/girl?username=";
 
-export const signup = async (req: IRequest<TUser>, res: Response) => {
+export const signup = async (req: IRequestWithBody<TUser>, res: Response) => {
   try {
     const { fullName, username, password, confirmPassword, gender } = req.body;
     if (password !== confirmPassword) {
@@ -45,26 +45,26 @@ export const signup = async (req: IRequest<TUser>, res: Response) => {
         gender: newUser.gender
       });
     } else {
-      res.status(400).json({ error: errorTexts.auth.invalidUser })
+      res.status(400).json({ error: errorTexts.auth.invalidUser });
     }
   } catch (e) {
-    errorHandler(e, res, 'Signup controller');
+    errorHandler(e, res, "Signup controller");
   }
 };
 
-export const login = async (req: IRequest<TUserLogin>, res: Response) => {
+export const login = async (req: IRequestWithBody<TUserLogin>, res: Response) => {
   try {
-    const {username, password} = req.body;
-    const user = await UserModel.findOne({username});
+    const { username, password } = req.body;
+    const user = await UserModel.findOne({ username });
     if (!user) {
       return res.status(404).json({
         error: errorTexts.auth.notFound
-      })
+      });
     }
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
-      return res.status(401).json({error: errorTexts.auth.passwordError});
+      return res.status(401).json({ error: errorTexts.auth.passwordError });
     }
 
     generateTokenAndSetCookie(user._id, res);
@@ -77,17 +77,17 @@ export const login = async (req: IRequest<TUserLogin>, res: Response) => {
       gender: user.gender
     });
   } catch (e) {
-    errorHandler(e, res, 'Login controller');
+    errorHandler(e, res, "Login controller");
   }
 };
 
 export const logout = async (req: Request, res: Response) => {
   try {
-    res.cookie("jwt", "", {maxAge: 0});
+    res.cookie("jwt", "", { maxAge: 0 });
     res.status(200).json({
       message: successTexts.auth.logoutSuccess
-    })
+    });
   } catch (e) {
-    errorHandler(e, res, 'Logout controller');
+    errorHandler(e, res, "Logout controller");
   }
 };

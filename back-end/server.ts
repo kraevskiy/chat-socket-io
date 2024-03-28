@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
 import routes from "./routes";
 import connectToMongoDB from "./db/connectToMongoDB";
@@ -9,6 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 3333;
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(routes);
 
 app.listen(PORT, async () => {
