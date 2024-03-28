@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import { TUser, TUserLogin } from "../types";
 import { errorTexts, successTexts } from "../texts";
-import User from "../models/user.model";
 import { errorHandler, generateTokenAndSetCookie } from "../utils";
 import { IRequest } from "../types/basic.types";
+import { UserModel } from "../models/";
 
 const avatarHe = "https://avatar.iran.liara.run/public/boy?username=";
 const avatarShe = "https://avatar.iran.liara.run/public/girl?username=";
@@ -16,7 +16,7 @@ export const signup = async (req: IRequest<TUser>, res: Response) => {
       return res.status(400).json({ error: errorTexts.auth.confirmPassword });
     }
 
-    const user = await User.findOne({ username });
+    const user = await UserModel.findOne({ username });
     if (user) {
       return res.status(400).json({ error: errorTexts.auth.userExist });
     }
@@ -25,7 +25,7 @@ export const signup = async (req: IRequest<TUser>, res: Response) => {
     const hashedPassword = await bcrypt.hash(password, salt);
     const picture = gender === "female" ? avatarShe + username : avatarHe + username;
 
-    const newUser = new User({
+    const newUser = new UserModel({
       fullName,
       username,
       password: hashedPassword,
@@ -55,7 +55,7 @@ export const signup = async (req: IRequest<TUser>, res: Response) => {
 export const login = async (req: IRequest<TUserLogin>, res: Response) => {
   try {
     const {username, password} = req.body;
-    const user = await User.findOne({username});
+    const user = await UserModel.findOne({username});
     if (!user) {
       return res.status(404).json({
         error: errorTexts.auth.notFound
