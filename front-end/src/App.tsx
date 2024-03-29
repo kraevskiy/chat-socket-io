@@ -1,15 +1,20 @@
 import { ThemeProvider } from "@/components/theme-provider.tsx";
+import { BrowserRouter } from "react-router-dom";
 import Layout from "@/components/layout.tsx";
-import Home from "@/pages/home";
+import AppRoutes from "@/app-routes.tsx";
+import { Toaster } from "@/components/ui/toaster.tsx";
 
 function App() {
 
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <Layout>
-        <Home />
-      </Layout>
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <Layout>
+          <AppRoutes />
+          <Toaster />
+        </Layout>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
 

@@ -18,7 +18,7 @@ export const signup = async (req: IRequestWithBody<TUser>, res: Response) => {
 
     const user = await UserModel.findOne({ username });
     if (user) {
-      return res.status(400).json({ error: errorTexts.auth.userExist });
+      return res.status(400).json({ error: errorTexts.auth.userExist, field: "username" });
     }
 
     const salt = await bcrypt.genSalt(10);
