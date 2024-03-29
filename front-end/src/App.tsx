@@ -1,11 +1,14 @@
 import { ThemeProvider } from "@/components/theme-provider.tsx";
-import { ModeToggle } from "@/components/mode-toggle.tsx";
+import Layout from "@/components/layout.tsx";
+import Home from "@/pages/home";
 
 function App() {
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <ModeToggle />
+      <Layout>
+        <Home />
+      </Layout>
     </ThemeProvider>
   );
 }
