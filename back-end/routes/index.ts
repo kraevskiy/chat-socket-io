@@ -6,9 +6,6 @@ import { protectRoute } from "../middleware";
 
 const routes = express.Router();
 
-routes.get("/", (req, res) => {
-  res.send("aloha");
-});
 routes.use("/api/auth", authRoutes);
 routes.use("/api/messages", protectRoute, messagesRoutes);
 routes.use("/api/users", protectRoute, userRoutes);
