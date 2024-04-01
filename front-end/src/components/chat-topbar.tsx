@@ -15,12 +15,12 @@ const ChatTopbar: React.FC<ChatTopbarProps> = ({selectedUser}) => {
             alt={selectedUser.fullName}
             width={6}
             height={6}
-            className="w-10 h-10 "
+            className="w-10 h-10"
           />
         </Avatar>
         <div className="flex flex-col">
           <span className="font-medium">{selectedUser.fullName}</span>
-          <span className="text-xs">Active 2 mins ago</span>
+          {/*<span className="text-xs">Active 2 mins ago</span>*/}
         </div>
       </div>
     </div>

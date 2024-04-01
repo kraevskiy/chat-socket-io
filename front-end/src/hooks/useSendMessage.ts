@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useConversationStore } from "@/store/conversation.store.ts";
 import { APIMessageType } from "@/types/api.types.ts";
 
-const useSendMessage = () => {
+export const useSendMessage = () => {
   const [loading, setLoading] = useState(false);
   const { setMessages, selectedConversation, messages } = useConversationStore();
 
@@ -17,7 +17,7 @@ const useSendMessage = () => {
         body: JSON.stringify({ message })
       });
       const data: APIMessageType = await res.json();
-
+      console.log('messages send', messages);
       setMessages([...messages, data]);
 
     } catch (e) {
@@ -30,4 +30,3 @@ const useSendMessage = () => {
   return {loading, sendMessage}
 };
 
-export default useSendMessage;

@@ -3,7 +3,7 @@ import { useConversationStore } from "@/store/conversation.store.ts";
 import { useToast } from "@/components/ui/use-toast.ts";
 import { APIErrorType, APIMessageType } from "@/types/api.types.ts";
 
-const useGetMessages = () => {
+export const useGetMessages = () => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const { selectedConversation, setMessages, messages } = useConversationStore();
@@ -46,4 +46,3 @@ const useGetMessages = () => {
   return { loading, messages };
 };
 
-export default useGetMessages;

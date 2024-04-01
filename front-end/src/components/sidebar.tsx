@@ -11,10 +11,11 @@ import { Avatar, AvatarImage } from "./ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Search, LogOut, Loader2 } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle.tsx";
-import { useLogout } from "@/hooks";
+import { useGetConversation, useLogout } from "@/hooks";
 import { useConversationStore } from "@/store/conversation.store.ts";
-import useGetConversation from "@/hooks/useGetConversation.ts";
 import { useToast } from "@/components/ui/use-toast.ts";
+import { useSocketContext } from "@/context/socket.context.tsx";
+import { Badge } from "@/components/ui/badge"
 
 interface SidebarProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   isCollapsed: boolean;
@@ -23,10 +24,12 @@ interface SidebarProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>,
 
 const Sidebar: React.FC<SidebarProps> = ({ isLoading, isCollapsed, className, ...props }) => {
   const { logout, loading: loadingLogout } = useLogout();
-  const { selectedConversation, setSelectedConversation } = useConversationStore();
+  const { selectedConversation, setSelectedConversation, unreadMessages } = useConversationStore();
   const { conversations } = useGetConversation();
   const [search, setSearch] = useState("");
   const { toast } = useToast();
+  const {onlineUsers} = useSocketContext();
+
 
   const handleSearch = () => {
     if (search.length < 3) {
@@ -63,7 +66,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isLoading, isCollapsed, className, ..
           <div className="flex justify-between p-2 items-center flex-wrap gap-4">
             <div className="flex gap-2 items-center text-2xl">
               <p className="font-medium">Chats</p>
-              <span className="text-zinc-300">(20)</span>
+              {/*<span className="text-zinc-300">(20)</span>*/}
             </div>
 
             <div className="flex gap-2">
@@ -153,17 +156,22 @@ const Sidebar: React.FC<SidebarProps> = ({ isLoading, isCollapsed, className, ..
                 "justify-start gap-4 h-20"
               )}
             >
-              <Avatar className="flex justify-center items-center">
-                <AvatarImage
-                  src={conversation.picture}
-                  alt={conversation.fullName}
-                  width={6}
-                  height={6}
-                  className="w-10 h-10 "
-                />
-              </Avatar>
-              <div className="flex flex-col max-w-28 text-left">
+              <div className="relative">
+                <Avatar className="flex justify-center items-center">
+                  <AvatarImage
+                    src={conversation.picture}
+                    alt={conversation.fullName}
+                    width={6}
+                    height={6}
+                    className="w-10 h-10 "
+                  />
+                </Avatar>
+                {onlineUsers.includes(conversation._id) && <span className="absolute top-0 right-0 bg-green-600 w-2.5 h-2.5 rounded-full border border-white" />}
+              </div>
+              <div className="flex w-full text-left justify-between">
                 <span>{conversation.fullName}</span>
+                {unreadMessages[conversation._id] && <Badge>{unreadMessages[conversation._id]}</Badge>}
+
                 {/*{link.messages.length > 0 && (*/}
                 {/*  <span className="text-zinc-300 text-xs truncate ">*/}
                 {/*    {link.messages[link.messages.length - 1].name.split(" ")[0]}*/}

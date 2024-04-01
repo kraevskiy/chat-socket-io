@@ -5,8 +5,9 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar.tsx";
 import ChatBottombar from "./chat-bottombar";
 import { APIUsersTypeItem } from "@/types/api.types.ts";
 import { useUserStore } from "@/store/user.store.ts";
-import useGetMessages from "@/hooks/useGetMessages.ts";
 import { extractTimeUtil } from "@/utils/extract-time.util.ts";
+import { useGetMessages } from "@/hooks";
+import { useConversationStore } from "@/store/conversation.store.ts";
 
 interface ChatListProps {
   selectedUser: APIUsersTypeItem;
@@ -18,11 +19,19 @@ const ChatList: React.FC<ChatListProps> = ({
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const { user } = useUserStore();
   const { messages } = useGetMessages();
+  const { unreadMessages, setUnreadMessages } = useConversationStore();
 
   useEffect(() => {
     if (messagesContainerRef.current) {
       messagesContainerRef.current.scrollTop =
         messagesContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    if (unreadMessages[selectedUser._id]) {
+      const { [selectedUser._id]: _, ...otherMessages } = unreadMessages;
+      setUnreadMessages(otherMessages);
     }
   }, [messages]);
 
@@ -68,7 +77,7 @@ const ChatList: React.FC<ChatListProps> = ({
                     />
                   </Avatar>
                 )}
-                <div className={cn("flex flex-col", message.senderId === user?._id ? 'items-end' : 'items-start')}>
+                <div className={cn("flex flex-col", message.senderId === user?._id ? "items-end" : "items-start")}>
                   <span className="bg-accent p-3 rounded-md max-w-xs">
                     {message.message}
                   </span>

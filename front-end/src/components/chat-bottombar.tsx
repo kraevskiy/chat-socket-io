@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Textarea } from "@/components/ui/textarea.tsx";
 import EmojiPicker from "./emoji-picker";
 import { Button } from "@/components/ui/button.tsx";
-import useSendMessage from "@/hooks/useSendMessage.ts";
+import { useSendMessage } from "@/hooks";
 
 interface ChatBottombarProps {
 }

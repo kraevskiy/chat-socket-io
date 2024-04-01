@@ -3,6 +3,7 @@ import { ISendMessageRequest } from "../types/";
 import { errorHandler } from "../utils";
 import { ConversationModel, MessageModel } from "../models";
 import { errorTexts } from "../texts";
+import { getReceiverSocketId, io } from "../socket/socket";
 
 export const sendMessage = async (req: ISendMessageRequest, res: Response) => {
   try {
@@ -38,6 +39,11 @@ export const sendMessage = async (req: ISendMessageRequest, res: Response) => {
       conversation.save(),
       newMessage.save()
     ]);
+
+    const receiverSocketId = getReceiverSocketId(`${receiverId}`)
+    if (receiverId) {
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
 
     res.status(201).json(newMessage);
   } catch (e) {

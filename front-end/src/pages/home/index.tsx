@@ -8,14 +8,15 @@ import {
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils.ts";
 import Chat from "@/components/chat.tsx";
-import useGetConversation from "@/hooks/useGetConversation.ts";
+import { useGetConversation, useListenMessages } from "@/hooks";
 
 const Home = () => {
   const defaultLayout = [320, 480];
   const navCollapsedSize = 8;
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const {conversations, loading} = useGetConversation();
+  const {loading} = useGetConversation();
+  useListenMessages();
 
   useEffect(() => {
     const checkScreenWidth = () => {
@@ -70,7 +71,6 @@ const Home = () => {
           >
             <Sidebar
               isCollapsed={isCollapsed || isMobile}
-              conversations={conversations}
               isLoading={loading}
             />
           </ResizablePanel>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { APIErrorType, APIUsersType } from "@/types/api.types.ts";
 import { useToast } from "@/components/ui/use-toast.ts";
 
-const useGetConversation = () => {
+export const useGetConversation = () => {
   const [loading, setLoading] = useState(false);
   const [conversations, setConversations] = useState<APIUsersType>([]);
   const { toast } = useToast();
@@ -44,4 +44,3 @@ const useGetConversation = () => {
 
 };
 
-export default useGetConversation;

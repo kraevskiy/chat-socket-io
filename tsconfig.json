@@ -10,5 +10,5 @@
     "typeRoots":  ["./back-end/@types", "./node_modules/@types"]
   },
   "include": ["./back-end/**/*.ts"],
-  "exclude": ["node_modules", "front-end"]
+  "exclude": ["node_modules", "front-end/*"]
 }
