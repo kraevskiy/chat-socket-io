@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "serve:dev": "nodemon back-end/server.ts",
     "serve:build": "tsc",
