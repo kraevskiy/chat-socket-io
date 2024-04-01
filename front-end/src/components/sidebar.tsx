@@ -9,8 +9,9 @@ import {
 } from "@/components/ui/tooltip";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { Input } from "@/components/ui/input";
-import { Search, LogOut } from "lucide-react";
+import { Search, LogOut, Loader2 } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle.tsx";
+import { useLogout } from "@/hooks";
 
 interface SidebarProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   isCollapsed: boolean;
@@ -103,7 +104,7 @@ const links = userData.map((user) => ({
 }));
 
 const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, className, ...props }) => {
-
+  const { logout, loading } = useLogout();
   return (
     <div
       data-collapsed={isCollapsed}
@@ -126,8 +127,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, className, ...props }) =
                     <Button
                       variant="outline"
                       size="icon"
+                      onClick={logout}
                     >
-                      <LogOut className="h-4 w-4" />
+                      {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> :
+                        <LogOut className="h-4 w-4 rotate-180" />}
+
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -145,7 +149,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, className, ...props }) =
           <hr className="h-0.5 border-t-0 bg-neutral-100 dark:bg-white/10" />
         </>
       )}
-      <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2 overflow-y-auto overflow-x-hidden">
+      <nav
+        className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2 overflow-y-auto overflow-x-hidden">
         {links.map((link, index) =>
           isCollapsed ? (
             <TooltipProvider key={index}>

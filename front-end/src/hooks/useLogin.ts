@@ -1,23 +1,23 @@
 import { useState } from "react";
-import { SignupSchema } from "@/types/signup.types.ts";
 import { APIErrorType, APIUserType } from "@/types/api.types.ts";
 import { useToast } from "@/components/ui/use-toast.ts";
 import { useAuthContext } from "@/context/AuthContext.tsx";
+import { LoginSchema } from "@/types/login.types.ts";
 
-type UseSignupType = {
+type UseLoginType = {
   loading: boolean;
-  signup: (data: SignupSchema) => Promise<void | APIErrorType>;
+  login: (data: LoginSchema) => Promise<void | APIErrorType>;
 }
 
-export const useSignup = (): UseSignupType => {
+export const useLogin = (): UseLoginType => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const {setAuthUser} = useAuthContext();
 
-  const signup = async (data: SignupSchema) => {
+  const login = async (data: LoginSchema) => {
     setLoading(true);
     try {
-      const res = await fetch('/api/auth/signup', {
+      const res = await fetch('/api/auth/login', {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -53,5 +53,5 @@ export const useSignup = (): UseSignupType => {
     }
   }
 
-  return {loading, signup};
+  return {loading, login};
 }

@@ -17,11 +17,9 @@ import { signupInputs, SignupSchema } from "@/types/signup.types.ts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { useSignup } from "@/hooks";
-import { useToast } from "@/components/ui/use-toast.ts";
 
 const Signup = () => {
   const [password, setPassword] = useState(true);
-  const { toast } = useToast();
   const { signup, loading } = useSignup();
   const form = useForm<SignupSchema>({
     resolver: zodResolver(signupInputs),
@@ -49,20 +47,9 @@ const Signup = () => {
 
   const submitHandler = async (data: SignupSchema) => {
     const res = await signup(data);
-    if ("error" in res) {
-      if (res.field) {
-        form.setError(res.field as keyof SignupSchema, {})
-      }
-      toast({
-        title: res.error,
-        variant: "destructive",
-        duration: 3000
-      });
-    } else {
-      toast({
-        title: `Welcome ${res.username}`,
-        duration: 3000
-      });
+    if (typeof res === 'object') {
+      form.setError(res.field as keyof SignupSchema, {})
+      form.setFocus(res.field as keyof SignupSchema);
     }
   };
 

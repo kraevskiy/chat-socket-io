@@ -19,3 +19,5 @@ export type APIMessageType = {
 export type APIUsersType = (APIUsersType & { __v: number })[];
 
 export type APIErrorType = { error: string; field?: string };
+
+export type APIAnswerType = {message: string};

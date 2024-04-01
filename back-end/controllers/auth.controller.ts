@@ -58,13 +58,14 @@ export const login = async (req: IRequestWithBody<TUserLogin>, res: Response) =>
     const user = await UserModel.findOne({ username });
     if (!user) {
       return res.status(404).json({
-        error: errorTexts.auth.notFound
+        error: errorTexts.auth.notFound,
+        field: "username"
       });
     }
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
-      return res.status(401).json({ error: errorTexts.auth.passwordError });
+      return res.status(401).json({ error: errorTexts.auth.passwordError, field: "password" });
     }
 
     generateTokenAndSetCookie(user._id, res);
