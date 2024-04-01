@@ -8,7 +8,7 @@
     "serve:dev": "nodemon back-end/server.ts",
     "serve:build": "tsc",
     "start": "node dist/server.js",
-    "build": "npm i -g node && npm install && npm run serve:build && npm install --prefix front-end && npm run build --prefix front-end"
+    "build": "npm install && npm run serve:build && npm install --prefix front-end && npm run build --prefix front-end"
   },
   "keywords": [],
   "author": "",
