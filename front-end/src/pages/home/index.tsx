@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card.tsx";
-import Sidebar, { userData } from "@/components/sidebar.tsx";
+import Sidebar from "@/components/sidebar.tsx";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -8,13 +8,14 @@ import {
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils.ts";
 import Chat from "@/components/chat.tsx";
+import useGetConversation from "@/hooks/useGetConversation.ts";
 
 const Home = () => {
   const defaultLayout = [320, 480];
   const navCollapsedSize = 8;
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [selectedUser] = useState(userData[0]);
+  const {conversations, loading} = useGetConversation();
 
   useEffect(() => {
     const checkScreenWidth = () => {
@@ -69,15 +70,13 @@ const Home = () => {
           >
             <Sidebar
               isCollapsed={isCollapsed || isMobile}
+              conversations={conversations}
+              isLoading={loading}
             />
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
-            <Chat
-              messages={selectedUser.messages}
-              selectedUser={selectedUser}
-              isMobile={isMobile}
-            />
+            <Chat />
           </ResizablePanel>
         </ResizablePanelGroup>
       </Card>

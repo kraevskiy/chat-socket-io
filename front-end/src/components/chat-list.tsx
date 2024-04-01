@@ -1,24 +1,23 @@
-import { Message, UserData } from "@/data.tsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils.ts";
 import { Avatar, AvatarImage } from "@/components/ui/avatar.tsx";
 import ChatBottombar from "./chat-bottombar";
+import { APIUsersTypeItem } from "@/types/api.types.ts";
+import { useUserStore } from "@/store/user.store.ts";
+import useGetMessages from "@/hooks/useGetMessages.ts";
+import { extractTimeUtil } from "@/utils/extract-time.util.ts";
 
 interface ChatListProps {
-  messages?: Message[];
-  selectedUser: UserData;
-  sendMessage: (newMessage: Message) => void;
-  isMobile: boolean;
+  selectedUser: APIUsersTypeItem;
 }
 
 const ChatList: React.FC<ChatListProps> = ({
-  messages,
-  selectedUser,
-  sendMessage,
-  isMobile
+  selectedUser
 }) => {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const { user } = useUserStore();
+  const { messages } = useGetMessages();
 
   useEffect(() => {
     if (messagesContainerRef.current) {
@@ -55,28 +54,33 @@ const ChatList: React.FC<ChatListProps> = ({
               }}
               className={cn(
                 "flex flex-col gap-2 p-4 whitespace-pre-wrap",
-                message.name !== selectedUser.name ? "items-end" : "items-start"
+                message.senderId === user?._id ? "items-end" : "items-start"
               )}
             >
               <div className="flex gap-3 items-center">
-                {message.name === selectedUser.name && (
+                {message.senderId !== user?._id && (
                   <Avatar className="flex justify-center items-center">
                     <AvatarImage
-                      src={message.avatar}
-                      alt={message.name}
+                      src={selectedUser.picture}
+                      alt={selectedUser.fullName}
                       width={6}
                       height={6}
                     />
                   </Avatar>
                 )}
-                <span className=" bg-accent p-3 rounded-md max-w-xs">
-                  {message.message}
-                </span>
-                {message.name !== selectedUser.name && (
+                <div className={cn("flex flex-col", message.senderId === user?._id ? 'items-end' : 'items-start')}>
+                  <span className="bg-accent p-3 rounded-md max-w-xs">
+                    {message.message}
+                  </span>
+                  <span className="text-xs text-gray-400 dark:text-gray-700">
+                    {extractTimeUtil(message.createdAt)}
+                  </span>
+                </div>
+                {message.senderId === user?._id && (
                   <Avatar className="flex justify-center items-center">
                     <AvatarImage
-                      src={message.avatar}
-                      alt={message.name}
+                      src={user.picture}
+                      alt={user.fullName}
                       width={6}
                       height={6}
                     />
@@ -87,7 +91,7 @@ const ChatList: React.FC<ChatListProps> = ({
           ))}
         </AnimatePresence>
       </div>
-      <ChatBottombar sendMessage={sendMessage} isMobile={isMobile} />
+      <ChatBottombar />
     </div>
   );
 };

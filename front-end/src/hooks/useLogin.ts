@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { APIErrorType, APIUserType } from "@/types/api.types.ts";
 import { useToast } from "@/components/ui/use-toast.ts";
-import { useAuthContext } from "@/context/AuthContext.tsx";
 import { LoginSchema } from "@/types/login.types.ts";
+import { useUserStore } from "@/store/user.store.ts";
 
 type UseLoginType = {
   loading: boolean;
@@ -12,7 +12,7 @@ type UseLoginType = {
 export const useLogin = (): UseLoginType => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
-  const {setAuthUser} = useAuthContext();
+  const { setUser } = useUserStore();
 
   const login = async (data: LoginSchema) => {
     setLoading(true);
@@ -34,7 +34,7 @@ export const useLogin = (): UseLoginType => {
         return resData;
       }
       localStorage.setItem('chat-user', JSON.stringify(resData))
-      setAuthUser(resData);
+      setUser(resData);
       toast({
         title: `Welcome ${resData.fullName}`,
         duration: 3000

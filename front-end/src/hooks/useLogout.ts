@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { APIAnswerType } from "@/types/api.types.ts";
 import { useToast } from "@/components/ui/use-toast.ts";
-import { useAuthContext } from "@/context/AuthContext.tsx";
+import { useUserStore } from "@/store/user.store.ts";
 
 type UseLogoutType = {
   loading: boolean;
@@ -11,7 +11,7 @@ type UseLogoutType = {
 export const useLogout = (): UseLogoutType => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
-  const { setAuthUser } = useAuthContext();
+  const { setUser } = useUserStore();
 
   const logout = async () => {
     try {
@@ -27,7 +27,7 @@ export const useLogout = (): UseLogoutType => {
       }
       if ("message" in data) {
         localStorage.removeItem("chat-user");
-        setAuthUser(null);
+        setUser(null);
         toast({
           title: data.message,
           duration: 3000

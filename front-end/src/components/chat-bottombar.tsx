@@ -1,50 +1,35 @@
-
 import {
+  Loader2,
   SendHorizontal,
   ThumbsUp
 } from "lucide-react";
 import { useRef, useState } from "react";
-import { loggedInUserData, Message } from "@/data.tsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { Textarea } from "@/components/ui/textarea.tsx";
 import EmojiPicker from "./emoji-picker";
 import { Button } from "@/components/ui/button.tsx";
+import useSendMessage from "@/hooks/useSendMessage.ts";
 
 interface ChatBottombarProps {
-  sendMessage: (newMessage: Message) => void;
-  isMobile: boolean;
 }
 
-const ChatBottombar: React.FC<ChatBottombarProps> = ({
-  sendMessage,
-}) => {
+const ChatBottombar: React.FC<ChatBottombarProps> = () => {
   const [message, setMessage] = useState("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const { sendMessage, loading } = useSendMessage();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(event.target.value);
   };
 
-  const handleThumbsUp = () => {
-    const newMessage: Message = {
-      id: message.length + 1,
-      name: loggedInUserData.name,
-      avatar: loggedInUserData.avatar,
-      message: "👍",
-    };
-    sendMessage(newMessage);
+  const handleThumbsUp = async () => {
+    await sendMessage(message);
     setMessage("");
   };
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (message.trim()) {
-      const newMessage: Message = {
-        id: message.length + 1,
-        name: loggedInUserData.name,
-        avatar: loggedInUserData.avatar,
-        message: message.trim(),
-      };
-      sendMessage(newMessage);
+      await sendMessage(message.trim());
       setMessage("");
 
       if (inputRef.current) {
@@ -79,8 +64,8 @@ const ChatBottombar: React.FC<ChatBottombarProps> = ({
             opacity: { duration: 0.05 },
             layout: {
               type: "spring",
-              bounce: 0.15,
-            },
+              bounce: 0.15
+            }
           }}
         >
           <Textarea
@@ -95,7 +80,7 @@ const ChatBottombar: React.FC<ChatBottombarProps> = ({
           ></Textarea>
           <div className="absolute right-2 bottom-0.5  ">
             <EmojiPicker onChange={(value) => {
-              setMessage(message + value)
+              setMessage(message + value);
               if (inputRef.current) {
                 inputRef.current.focus();
               }
@@ -109,7 +94,9 @@ const ChatBottombar: React.FC<ChatBottombarProps> = ({
             variant="outline"
             onClick={handleSend}
           >
-            <SendHorizontal size={20} className="text-muted-foreground" />
+            {
+              loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <SendHorizontal size={20} className="text-muted-foreground" />
+            }
           </Button>
         ) : (
           <Button

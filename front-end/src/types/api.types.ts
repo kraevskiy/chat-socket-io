@@ -16,8 +16,9 @@ export type APIMessageType = {
   __v: number;
 }
 
-export type APIUsersType = (APIUsersType & { __v: number })[];
+export type APIUsersTypeItem = APIUserType & { __v: number };
+export type APIUsersType = APIUsersTypeItem[];
 
 export type APIErrorType = { error: string; field?: string };
 
-export type APIAnswerType = {message: string};
+export type APIAnswerType = { message: string };
