@@ -8,12 +8,20 @@
     "serve:dev": "nodemon back-end/server.ts",
     "serve:build": "tsc",
     "start": "node dist/server.js",
-    "build": "npm install && npm run serve:build && npm install --prefix front-end && npm run build --prefix front-end"
+    "build": "npm i -g node && npm install && npm run serve:build && npm install --prefix front-end && npm run build --prefix front-end"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.5",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.2.3",
+    "socket.io": "^4.7.5",
     "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.7",
@@ -25,13 +33,5 @@
     "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.3"
-  },
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "cookie-parser": "^1.4.6",
-    "dotenv": "^16.4.5",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.2.3",
-    "socket.io": "^4.7.5"
   }
 }
