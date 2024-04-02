@@ -30,8 +30,8 @@ const manifestForPlugin: Partial<VitePWAOptions> = {
           purpose: "apple touch icon"
         },
         {
-          src: "/android-chrome-192x192.png",
-          sizes: "192x192",
+          src: "/maskable_icon.png",
+          sizes: "692x662",
           type: "image/png",
           purpose: "any maskable"
         },
