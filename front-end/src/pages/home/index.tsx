@@ -78,7 +78,7 @@ const Home = () => {
               />
             </Suspense>
           </ResizablePanel>
-          <ResizableHandle withHandle />
+          <ResizableHandle withHandle aria-label="switch size"/>
           <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
             <Suspense fallback={<Loader />}>
               <Chat />

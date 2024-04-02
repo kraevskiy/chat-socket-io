@@ -78,6 +78,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isLoading, isCollapsed, className, ..
                       variant="outline"
                       size="icon"
                       onClick={logout}
+                      aria-label="toggle theme"
                     >
                       {loadingLogout ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> :
                         <LogOut className="h-4 w-4 rotate-180" />}
@@ -128,7 +129,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isLoading, isCollapsed, className, ..
                     <Avatar className="flex justify-center items-center">
                       <AvatarImage
                         src={conversation.picture}
-                        alt={conversation.fullName}
+                        alt={conversation.fullName + conversation.username}
                         width={6}
                         height={6}
                         className="w-10 h-10"
@@ -161,7 +162,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isLoading, isCollapsed, className, ..
                 <Avatar className="flex justify-center items-center">
                   <AvatarImage
                     src={conversation.picture}
-                    alt={conversation.fullName}
+                    alt={conversation.fullName + conversation.username}
                     width={6}
                     height={6}
                     className="w-10 h-10 "

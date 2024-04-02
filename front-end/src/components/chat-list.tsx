@@ -71,7 +71,7 @@ const ChatList: React.FC<ChatListProps> = ({
                   <Avatar className="flex justify-center items-center">
                     <AvatarImage
                       src={selectedUser.picture}
-                      alt={selectedUser.fullName}
+                      alt={selectedUser.fullName + selectedUser.username}
                       width={6}
                       height={6}
                     />
@@ -89,7 +89,7 @@ const ChatList: React.FC<ChatListProps> = ({
                   <Avatar className="flex justify-center items-center">
                     <AvatarImage
                       src={user.picture}
-                      alt={user.fullName}
+                      alt={user.fullName + user.username}
                       width={6}
                       height={6}
                     />
