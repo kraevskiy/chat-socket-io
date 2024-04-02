@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginInputs, LoginSchema } from "@/types/login.types.ts";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form.tsx";
 import { useLogin } from "@/hooks/useLogin.ts";
+import { cn } from "@/lib/utils.ts";
 
 const Login = () => {
   const [password, setPassword] = useState(true);
@@ -63,7 +64,7 @@ const Login = () => {
                         disabled={loading}
                         autoComplete="username"
                         placeholder="super_angle" {...field}
-                        className={fieldState.error ? "border-red-400" : ""}
+                        className={cn('text-lg', fieldState.error && "border-red-400")}
                       />
                     </FormControl>
                   </FormItem>
