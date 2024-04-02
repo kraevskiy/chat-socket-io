@@ -15,7 +15,7 @@ import { useGetConversation, useLogout } from "@/hooks";
 import { useConversationStore } from "@/store/conversation.store.ts";
 import { useToast } from "@/components/ui/use-toast.ts";
 import { useSocketContext } from "@/context/socket.context.tsx";
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@/components/ui/badge";
 
 interface SidebarProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   isCollapsed: boolean;
@@ -28,14 +28,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isLoading, isCollapsed, className, ..
   const { conversations } = useGetConversation();
   const [search, setSearch] = useState("");
   const { toast } = useToast();
-  const {onlineUsers} = useSocketContext();
+  const { onlineUsers } = useSocketContext();
 
 
   const handleSearch = () => {
     if (search.length < 3) {
       return toast({
         description: "Search must be at least 3 characters long.",
-        variant: 'info',
+        variant: "info",
         duration: 3000
       });
     }
@@ -48,7 +48,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isLoading, isCollapsed, className, ..
     } else {
       toast({
         description: "No such user found.",
-        variant: 'info',
+        variant: "info",
         duration: 3000
       });
     }
@@ -96,6 +96,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isLoading, isCollapsed, className, ..
                 id="search"
                 placeholder="Search"
                 value={search}
+                className={"text-lg"}
                 onChange={(e) => setSearch(e.target.value)}
               />
               <Search onClick={handleSearch} />
@@ -166,7 +167,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isLoading, isCollapsed, className, ..
                     className="w-10 h-10 "
                   />
                 </Avatar>
-                {onlineUsers.includes(conversation._id) && <span className="absolute top-0 right-0 bg-green-600 w-2.5 h-2.5 rounded-full border border-white" />}
+                {onlineUsers.includes(conversation._id) &&
+                  <span className="absolute top-0 right-0 bg-green-600 w-2.5 h-2.5 rounded-full border border-white" />}
               </div>
               <div className="flex w-full text-left justify-between">
                 <span>{conversation.fullName}</span>

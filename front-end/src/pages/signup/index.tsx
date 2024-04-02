@@ -17,6 +17,7 @@ import { signupInputs, SignupSchema } from "@/types/signup.types.ts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { useSignup } from "@/hooks";
+import { cn } from "@/lib/utils.ts";
 
 const Signup = () => {
   const [password, setPassword] = useState(true);
@@ -82,7 +83,7 @@ const Signup = () => {
                             disabled={loading}
                             autoComplete="name"
                             placeholder="John Dee" {...field}
-                            className={fieldState.error ? "border-red-400" : ""}
+                            className={cn("text-lg", fieldState.error && "border-red-400")}
                           />
                         </FormControl>
                       </FormItem>
@@ -102,7 +103,7 @@ const Signup = () => {
                             disabled={loading}
                             autoComplete="username"
                             placeholder="super_angle" {...field}
-                            className={fieldState.error ? "border-red-400" : ""}
+                            className={cn("text-lg", fieldState.error && "border-red-400")}
                           />
                         </FormControl>
                       </FormItem>
@@ -124,7 +125,7 @@ const Signup = () => {
                               autoComplete="current-password"
                               type={password ? "password" : "text"}
                               placeholder={password ? "******" : "------"}
-                              className={fieldState.error ? "border-red-400" : ""}
+                              className={cn("text-lg", fieldState.error && "border-red-400")}
                               {...field}
                             />
                             <span
@@ -156,7 +157,7 @@ const Signup = () => {
                               autoComplete="current-password"
                               type={password ? "password" : "text"}
                               placeholder={password ? "******" : "------"}
-                              className={fieldState.error ? "border-red-400" : ""}
+                              className={cn("text-lg", fieldState.error && "border-red-400")}
                               {...field}
                             />
                             <span

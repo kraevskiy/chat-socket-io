@@ -76,7 +76,7 @@ const ChatBottombar: React.FC<ChatBottombarProps> = () => {
             onChange={handleInputChange}
             name="message"
             placeholder="Aa"
-            className="w-full border flex items-center h-5 resize-none overflow-hidden bg-background"
+            className="text-lg w-full border flex items-center h-5 resize-none overflow-hidden bg-background"
           ></Textarea>
           <div className="absolute right-2 bottom-0.5  ">
             <EmojiPicker onChange={(value) => {
