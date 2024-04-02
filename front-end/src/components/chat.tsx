@@ -1,8 +1,10 @@
-import ChatTopbar from "@/components/chat-topbar.tsx";
-import ChatList from "@/components/chat-list.tsx";
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { MessagesSquare } from "lucide-react";
 import { useConversationStore } from "@/store/conversation.store.ts";
+import Loader from "@/components/loader.tsx";
+
+const ChatTopbar = lazy(() => import("@/components/chat-topbar.tsx"));
+const ChatList = lazy(() => import("@/components/chat-list.tsx"));
 
 interface ChatProps {
 }
@@ -16,12 +18,15 @@ const Chat: React.FC<ChatProps> = () => {
 
   return (
     <div className="flex flex-col justify-between w-full h-full">
+
       {
         selectedConversation ? <>
-          <ChatTopbar selectedUser={selectedConversation} />
-          <ChatList
-            selectedUser={selectedConversation}
-          />
+          <Suspense fallback={<Loader />}>
+            <ChatTopbar selectedUser={selectedConversation} />
+            <ChatList
+              selectedUser={selectedConversation}
+            />
+          </Suspense>
         </> : <NoChatSelected />
       }
     </div>

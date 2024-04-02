@@ -1,21 +1,23 @@
 import { Card } from "@/components/ui/card.tsx";
-import Sidebar from "@/components/sidebar.tsx";
 import {
   ResizableHandle,
   ResizablePanel,
-  ResizablePanelGroup,
+  ResizablePanelGroup
 } from "@/components/ui/resizable";
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { cn } from "@/lib/utils.ts";
-import Chat from "@/components/chat.tsx";
 import { useGetConversation, useListenMessages } from "@/hooks";
+import Loader from "@/components/loader.tsx";
+
+const Chat = lazy(() => import("@/components/chat.tsx"));
+const Sidebar = lazy(() => import("@/components/sidebar.tsx"));
 
 const Home = () => {
   const defaultLayout = [320, 480];
   const navCollapsedSize = 8;
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const {loading} = useGetConversation();
+  const { loading } = useGetConversation();
   useListenMessages();
 
   useEffect(() => {
@@ -69,14 +71,18 @@ const Home = () => {
               isCollapsed && "min-w-[50px] md:min-w-[70px] transition-all duration-300 ease-in-out"
             )}
           >
-            <Sidebar
-              isCollapsed={isCollapsed || isMobile}
-              isLoading={loading}
-            />
+            <Suspense fallback={<Loader />}>
+              <Sidebar
+                isCollapsed={isCollapsed || isMobile}
+                isLoading={loading}
+              />
+            </Suspense>
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
-            <Chat />
+            <Suspense fallback={<Loader />}>
+              <Chat />
+            </Suspense>
           </ResizablePanel>
         </ResizablePanelGroup>
       </Card>
